@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button">从后端取值</button>
+</body>
+<script>
+    //封装一个ajax请求的函数
+    function ajaxGet(url) {
+        return new Promise(function (success, error) {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    success(xhr.response);
+                }
+            }
+            xhr.open('GET', url);
+            xhr.responseType = 'json';
+            xhr.send();
+        })
+    }
+    document.querySelector('button').onclick = function () {
+        ajaxGet('/xxx?hobby=打球')
+            .then(function (data) {
+                console.log(data.age);
+                return ajaxGet('/yyy?age=' + data.age);
+            }).then(function (e) {
+                console.log(e);
+            })
+
+
+
+    }
+
+
+
+
+
+
+</script>
+
+</html>
